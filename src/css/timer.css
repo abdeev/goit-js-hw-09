@@ -1,0 +1,22 @@
+.timer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 10px 30px;
+  gap: 10px;
+  border: 1px solid;
+  border-radius: 15px;
+  background-color: rgb(233, 232, 232);
+}
+#datetime-picker {
+  padding: 10px 30px;
+  border: 1px solid;
+  border-radius: 15px;
+  background-color: rgb(233, 232, 232);
+}
+button[data-start] {
+  padding: 10px 30px;
+  border: 1px solid;
+  border-radius: 15px;
+  background-color: rgb(233, 232, 232);
+}

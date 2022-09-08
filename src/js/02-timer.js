@@ -1,5 +1,6 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const inputDateEl = document.querySelector('#datetime-picker');
 const btnStartEl = document.querySelector('[data-start]');
@@ -17,16 +18,22 @@ flatpickr(inputDateEl, {
     defaultDate: new Date(),
   minuteIncrement: 1,
     onClose(selectedDates) {
-        userInputedDate = new Date(selectedDates[0]);
-        console.log(selectedDates[0]);
-        console.log(userInputedDate);
-    
-        
+
+    userInputedDate = new Date(selectedDates[0]);
+    timerCountDown.timerDeadline = userInputedDate;
+
+        btnStartEl.disabled = true;
+        if (selectedDates[0] <= Date.now()) {
+        Notify.warning('Please choose a date in the future')
+    } else {
+        btnStartEl.disabled = false;
+    }
+
   },
 });
 
 const timerCountDown = {
-    timerDeadline: userInputedDate,
+    timerDeadline: null,
     intervalFunc: null,
     start() {
         this.intervalFunc = setInterval(() => {
@@ -36,10 +43,10 @@ const timerCountDown = {
                 return;
             }
             const { days, hours, minutes, seconds } = this.getTimeElements(subtraction);
-            rootTimerSelectorEl.querySelector('[data-days]').textContent = this.pad(days);
-            rootTimerSelectorEl.querySelector('[data-hours]').textContent = this.pad(hours);
-            rootTimerSelectorEl.querySelector('[data-minutes]').textContent = this.pad(minutes);
-            rootTimerSelectorEl.querySelector('[data-seconds]').textContent = this.pad(seconds);
+            rootTimerSelectorEl.querySelector('[data-days]').textContent = this.addLeadingZero(days);
+            rootTimerSelectorEl.querySelector('[data-hours]').textContent = this.addLeadingZero(hours);
+            rootTimerSelectorEl.querySelector('[data-minutes]').textContent = this.addLeadingZero(minutes);
+            rootTimerSelectorEl.querySelector('[data-seconds]').textContent = this.addLeadingZero(seconds);
         }, 1000);
     },
     getTimeElements (diff) {
@@ -56,26 +63,12 @@ const timerCountDown = {
     };
     },
 
-    pad(value) {
+    addLeadingZero(value) {
     return String(value).padStart(2, 0);
     },
     stop() {
     clearInterval(this.intervalFunc);
     },
-
-    // declensionNum(num, words) {
-    // // num = 4
-    // // words = ['секунда', 'секунди', 'секунд']
-
-    // return words[
-    //   num % 100 > 4 && num % 100 < 20 ? 2 : [2, 0, 1, 1, 1, 2][num % 10 < 5 ? num % 10 : 5]
-    // ];
-    // },
 }
-const onChangeCheckInput = (event) => {
-    if (event.target.value <= Date.now()) {
-        window.alert('Please choose a date in the future')
-    } else btnStartEl.disabled = false;
-}
-btnStartEl.addEventListener('click', timerCountDown.start())
-inputDateEl.addEventListener('change', onChangeCheckInput)
+
+btnStartEl.addEventListener('click', timerCountDown.start.bind(timerCountDown));
