@@ -24,7 +24,7 @@ flatpickr(inputDateEl, {
 
         btnStartEl.disabled = true;
         if (selectedDates[0] <= Date.now()) {
-        Notify.warning('Please choose a date in the future')
+        Notify.failure('Please choose a date in the future')
     } else {
         btnStartEl.disabled = false;
     }
@@ -38,7 +38,8 @@ const timerCountDown = {
     start() {
         this.intervalFunc = setInterval(() => {
             const subtraction = this.timerDeadline - Date.now();
-            if (subtraction <=0) {
+            if (subtraction <= 0) {
+                Notify.info("Time is up!!!                  Click here", func = () => Location.reload());
                 this.stop();
                 return;
             }

@@ -19,4 +19,8 @@ button[data-start] {
   border: 1px solid;
   border-radius: 15px;
   background-color: rgb(233, 232, 232);
+  cursor: pointer;
+}
+button[data-start]:hover {
+  zoom: 98%;
 }
