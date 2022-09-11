@@ -26,10 +26,15 @@ function onBtnSubmitCreatesPromise(event) {
 
   let firstDelay = Number(delay.value);
   let waitingDelay = Number(step.value);
-  Notiflix.Loading.arrows('Working on your task...', { position: 'center-center', backgroundColor: 'rgba(255,255,255,0.9)', messageColor: '#32c682',});
-  Notiflix.Loading.remove(firstDelay);
-  for (let position = 1; position <= Number(amount.value); position += 1) {
 
+  Notiflix.Loading.arrows('Working on your task...', {
+    position: 'center-center',
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    messageColor: '#32c682',
+  });
+  Notiflix.Loading.remove(firstDelay);
+  
+  for (let position = 1; position <= Number(amount.value); position += 1) {
     createPromise(position, firstDelay)
       .then(({ position, delay }) => {
         Notify.success(`✅ Fulfilled promise ${position} in ${delay} ms`, {

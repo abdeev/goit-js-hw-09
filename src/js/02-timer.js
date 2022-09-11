@@ -39,7 +39,14 @@ const timerCountDown = {
         this.intervalFunc = setInterval(() => {
             const subtraction = this.timerDeadline - Date.now();
             if (subtraction <= 0) {
-                Notify.info("Time is up!!!                  Click here", func = () => Location.reload());
+                Notify.info("Time is up!!!", {
+                    width: 'auto',
+                    position: 'center-top',
+                    timeout: 10000,
+                    clickToClose: true,
+                    closeButton: true,
+                    backOverlay: true,
+                });
                 this.stop();
                 return;
             }
